@@ -5,7 +5,7 @@ import TodoItems from './TodoItems'
 
 const Todo = () => {
 
-    const [todolist, setTodolist] = useState([]);
+    const [todolist, setTodolist] = useState( localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : []);
 
 
     const inputref = useRef()
@@ -49,15 +49,17 @@ const Todo = () => {
     }
 
 
-    //  useEffect(()=>{
-    //      console.log(todolist);
-         
-    //  },[todolist])
-    
+    useEffect(() => {
+
+        localStorage.setItem("todos", JSON.stringify(todolist))
+
+    }, [todolist])
+
 
 
     return (
         <div className='bg-white place-self-center p-7 w-[90%] max-w-md flex flex-col min-h-[550px] rounded-xl'>
+            
 
             {/* ........Title....... */}
 
@@ -79,7 +81,7 @@ const Todo = () => {
             <div>
 
                 {todolist.map((item, index) => {
-                    return <TodoItems key={index} text={item.text} id={item.id} isComplete={item.isComplete} deleteTodo={deleteTodo} toggle={toggle}/>
+                    return <TodoItems key={index} text={item.text} id={item.id} isComplete={item.isComplete} deleteTodo={deleteTodo} toggle={toggle} />
                 })}
 
             </div>
